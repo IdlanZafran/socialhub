@@ -25,6 +25,17 @@
             border-radius: 24px;
             border: 1px rgba(255, 255, 255, 0.1) solid;
         }
+        
+        /* ADDED: Styling to make your profile image round and the right size */
+        .profile-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2); /* Adds a subtle border */
+        }
+
         h1 { font-size: 1.5rem; margin-bottom: 5px; }
         p { opacity: 0.7; font-size: 0.9rem; margin-bottom: 30px; }
         .link-card {
@@ -43,7 +54,9 @@
 </head>
 <body>
     <div class="container">
-        <img src=profilephoto.jpg class="profile-img">
+        <!-- FIXED: Added quotes and an alt attribute -->
+        <img src="profilephoto.jpg" alt="Idlan Zafran" class="profile-img">
+        
         <h1>Idlan Zafran</h1>
         <p>Researcher & Developer</p>
         
