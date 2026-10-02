@@ -54,13 +54,11 @@ body {
     isolation: isolate;
 
     /*
-        Dark translucent layer over the
-        blurred banner background.
+        Dark translucent base.
+        The actual blurred banner is
+        added separately with ::before.
     */
-    background: rgba(15, 23, 42, 0.65);
-
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: rgba(15, 23, 42, 0.72);
 
     border: 1px solid rgba(255, 255, 255, 0.10);
 
@@ -76,52 +74,73 @@ body {
 
 
 /* =========================
-   BLURRED BANNER BACKGROUND
-   ========================= */
+   BACKGROUND BANNER
+   =========================
+
+   This is a COMPLETELY SEPARATE
+   copy of banner.png.
+
+   It does not continue from the
+   top banner.
+   */
 
 .container::before {
     content: "";
 
     position: absolute;
+
+    /*
+        Keep it inside the card.
+    */
     inset: 0;
 
     background-image: url("images/banner.png");
 
+    /*
+        Independent positioning.
+        This is NOT connected to the
+        top banner.
+    */
     background-size: cover;
     background-position: center;
 
-    filter: blur(25px);
+    /*
+        Blur the background banner.
+    */
+    filter: blur(30px);
 
+    /*
+        Make it subtle.
+    */
     opacity: 0.18;
 
     /*
-        Slightly enlarge the image so
-        the blurred edges don't show.
+        Prevent blurred edges from
+        appearing inside the card.
     */
-    transform: scale(1.1);
+    transform: scale(1.08);
 
     z-index: -2;
 }
 
 
-/* =========================
-   DARK OVERLAY
-   ========================= */
+/* Dark translucent layer over
+   the blurred background */
 
 .container::after {
     content: "";
 
     position: absolute;
+
     inset: 0;
 
-    background: rgba(15, 23, 42, 0.55);
+    background: rgba(15, 23, 42, 0.62);
 
     z-index: -1;
 }
 
 
-/* Keep all content above
-   the background layers */
+/* Keep content above background */
 
 .container > * {
     position: relative;
@@ -130,7 +149,7 @@ body {
 
 
 /* =========================
-   BANNER
+   TOP BANNER
    ========================= */
 
 .banner {
@@ -148,6 +167,10 @@ body {
     height: 100%;
 
     object-fit: cover;
+
+    /*
+        This image remains sharp.
+    */
     object-position: center;
 
     display: block;
@@ -162,8 +185,8 @@ body {
     position: relative;
 
     /*
-        Pull profile picture slightly
-        over the banner.
+        Profile picture overlaps
+        the bottom of the banner.
     */
     margin-top: -55px;
 }
@@ -180,10 +203,6 @@ body {
 
     margin: 0 auto 14px;
 
-    /*
-        Border separates profile
-        picture from banner.
-    */
     border: 4px solid #172033;
 
     box-shadow:
@@ -215,7 +234,7 @@ h1 {
 
     margin: 0 auto 18px;
 
-    color: rgba(255, 255, 255, 0.68);
+    color: rgba(255, 255, 255, 0.72);
 
     font-size: 0.90rem;
 
@@ -232,11 +251,11 @@ h1 {
 
     font-size: 0.85rem;
 
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.58);
 }
 
 .contact a {
-    color: rgba(255, 255, 255, 0.90);
+    color: rgba(255, 255, 255, 0.92);
 
     text-decoration: none;
 }
@@ -257,7 +276,6 @@ h1 {
 
     gap: 11px;
 }
-
 
 .link-card {
     display: flex;
@@ -287,9 +305,6 @@ h1 {
         box-shadow 0.2s ease;
 }
 
-
-/* Desktop hover */
-
 .link-card:hover {
     transform: translateY(-2px);
 
@@ -298,9 +313,6 @@ h1 {
     box-shadow:
         0 8px 20px rgba(0, 0, 0, 0.18);
 }
-
-
-/* Mobile / click */
 
 .link-card:active {
     transform: scale(0.97);
@@ -325,6 +337,8 @@ h1 {
         padding-bottom: 28px;
     }
 
+    /* Top banner */
+
     .banner {
         width: calc(100% + 40px);
 
@@ -332,6 +346,8 @@ h1 {
 
         height: 175px;
     }
+
+    /* Profile */
 
     .profile-section {
         margin-top: -50px;
@@ -341,6 +357,8 @@ h1 {
         width: 100px;
         height: 100px;
     }
+
+    /* Text */
 
     h1 {
         font-size: 1.4rem;
@@ -356,6 +374,8 @@ h1 {
         margin-bottom: 22px;
     }
 
+    /* Links */
+
     .link-card {
         min-height: 50px;
     }
@@ -369,8 +389,9 @@ h1 {
 
 <div class="container">
 
+
     <!-- =========================
-         BANNER
+         TOP SHARP BANNER
          ========================= -->
 
     <div class="banner">
