@@ -1,70 +1,404 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Idlan Zafran | Connect</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: white;
-        }
-        .container {
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 40px 20px;
-            border-radius: 24px;
-            border: 1px rgba(255, 255, 255, 0.1) solid;
-        }
-        
-        /* ADDED: Styling to make your profile image round and the right size */
-        .profile-img {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.2); /* Adds a subtle border */
-        }
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Idlan Zafran | Connect</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <style>
+         /* Custom scrollbar for webkit to keep things clean */
+         ::-webkit-scrollbar {
+            width: 8px;
+         }
+         ::-webkit-scrollbar-track {
+            background: transparent;
+         }
+         ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+         }
+         ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+         }
 
-        h1 { font-size: 1.5rem; margin-bottom: 5px; }
-        p { opacity: 0.7; font-size: 0.9rem; margin-bottom: 30px; }
-        .link-card {
-            display: block;
-            background: white;
-            color: #0f172a;
-            text-decoration: none;
-            padding: 15px;
-            margin: 12px 0;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: transform 0.2s;
-        }
-        .link-card:active { transform: scale(0.95); }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- FIXED: Added quotes and an alt attribute -->
-        <img src="profilephoto.jpg" alt="Idlan Zafran" class="profile-img">
-        
-        <h1>Idlan Zafran</h1>
-        <p>Researcher & Developer</p>
-        
-        <a href="https://just-capri-e34.notion.site/idlanzafran" class="link-card">Web Portfolio</a>
-        <a href="https://github.com/IdlanZafran" class="link-card">GitHub</a>
-        <a href="https://idlanzafran.github.io/IdlanZafran-resume/" class="link-card">Resume</a>     
-        <a href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie" class="link-card">ResearchGate</a>
-        <a href="https://www.linkedin.com/in/idlanzafran/" class="link-card">LinkedIn</a>        
-    </div>
-</body>
+         body {
+            font-family:
+               -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+               Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+         }
+
+         /* Hide carousel scrollbar */
+         .no-scrollbar::-webkit-scrollbar {
+            display: none;
+         }
+         .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+         }
+      </style>
+   </head>
+   <body
+      class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] min-h-screen flex items-center justify-center p-4 text-white relative"
+   >
+      <!-- Main Glass Container -->
+      <div
+         class="w-full max-w-[400px] bg-white/5 backdrop-blur-md border border-white/10 rounded-[24px] overflow-hidden shadow-2xl pb-8"
+      >
+         <!-- FIXED HEIGHT BANNER: 250px height ensures consistent sizing -->
+         <div
+            class="relative w-full h-[250px] group overflow-hidden bg-black/20"
+         >
+            <!-- Carousel Track -->
+            <div
+               id="carousel-track"
+               class="flex w-full h-full transition-transform duration-500 ease-in-out"
+            >
+               <!-- Images are injected here dynamically via JavaScript -->
+            </div>
+
+            <!-- Carousel Controls (IDs added for JS logic) -->
+            <button
+               id="prev-btn"
+               onclick="prevSlide()"
+               class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full backdrop-blur-sm transition-colors z-10 hidden"
+            >
+               <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+               >
+                  <path
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     d="M15.75 19.5L8.25 12l7.5-7.5"
+                  />
+               </svg>
+            </button>
+            <button
+               id="next-btn"
+               onclick="nextSlide()"
+               class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white p-2 rounded-full backdrop-blur-sm transition-colors z-10 hidden"
+            >
+               <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+               >
+                  <path
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                  />
+               </svg>
+            </button>
+
+            <!-- Carousel Indicators -->
+            <div
+               id="carousel-indicators"
+               class="absolute bottom-10 left-1/2 -translate-x-1/2 flex space-x-2 z-10 hidden"
+            >
+               <!-- Dots are injected here dynamically via JavaScript -->
+            </div>
+         </div>
+
+         <div class="px-6 flex flex-col items-center -mt-12 relative z-20">
+            <img
+               src="profilephoto.jpg"
+               onerror="
+                  this.src =
+                     'https://placehold.co/110x110/ffffff/0f172a?text=IZ'
+               "
+               alt="Idlan Zafran"
+               class="w-[110px] h-[110px] rounded-full object-cover border-4 border-[#121c2d] shadow-lg mb-3 bg-white"
+            />
+
+            <h1 class="text-2xl font-bold mb-1">Idlan Zafran</h1>
+            <p class="text-sm text-white/70 font-medium mb-4">
+               Researcher & Developer
+            </p>
+
+            <p
+               class="text-center text-sm text-white/80 leading-relaxed mb-6 px-2"
+            >
+               Student engineer by day, business at night, research on weekends
+               and developer on occasion.
+            </p>
+
+            <div class="w-full flex flex-col space-y-3">
+               <a
+                  href="https://just-capri-e34.notion.site/idlanzafran"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
+               >
+                  Web Portfolio
+               </a>
+               <a
+                  href="https://github.com/IdlanZafran"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
+               >
+                  GitHub
+               </a>
+               <a
+                  href="https://idlanzafran.github.io/IdlanZafran-resume/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
+               >
+                  Resume
+               </a>
+               <a
+                  href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
+               >
+                  ResearchGate
+               </a>
+               <a
+                  href="https://www.linkedin.com/in/idlanzafran/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
+               >
+                  LinkedIn
+               </a>
+
+               <div class="h-2"></div>
+
+               <button
+                  onclick="openContactModal()"
+                  class="block w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-center py-3.5 rounded-xl font-bold transition-transform active:scale-95 hover:brightness-110 shadow-lg border border-white/20"
+               >
+                  Contact Me
+               </button>
+            </div>
+         </div>
+      </div>
+
+      <div
+         id="contact-modal"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+      >
+         <div
+            class="bg-[#1e293b] w-full max-w-[400px] rounded-[24px] border border-white/10 p-6 shadow-2xl transform scale-95 transition-transform duration-300"
+            id="modal-content"
+         >
+            <div class="flex justify-between items-center mb-6">
+               <h2 class="text-xl font-bold text-white">Get in Touch</h2>
+               <button
+                  onclick="closeContactModal()"
+                  class="text-white/50 hover:text-white transition-colors"
+               >
+                  <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke-width="2"
+                     stroke="currentColor"
+                     class="w-6 h-6"
+                  >
+                     <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                     />
+                  </svg>
+               </button>
+            </div>
+
+            <!-- Formspree Form -->
+            <form
+               id="contact-form"
+               action="https://formspree.io/f/mzezqqjy"
+               method="POST"
+               class="space-y-4"
+            >
+               <div>
+                  <label class="block text-sm font-medium text-white/70 mb-1"
+                     >Name</label
+                  >
+                  <input
+                     type="text"
+                     name="name"
+                     required
+                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                     placeholder="John Doe"
+                  />
+               </div>
+               <div>
+                  <label class="block text-sm font-medium text-white/70 mb-1"
+                     >Association / Company</label
+                  >
+                  <input
+                     type="text"
+                     name="association"
+                     required
+                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                     placeholder="University / Startup Inc."
+                  />
+               </div>
+               <div>
+                  <label class="block text-sm font-medium text-white/70 mb-1"
+                     >Phone Number</label
+                  >
+                  <input
+                     type="tel"
+                     name="phone"
+                     required
+                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                     placeholder="+60 12 345 6789"
+                  />
+               </div>
+               <div>
+                  <label class="block text-sm font-medium text-white/70 mb-1"
+                     >Details</label
+                  >
+                  <textarea
+                     name="message"
+                     required
+                     rows="3"
+                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none"
+                     placeholder="Reason for reaching out..."
+                  ></textarea>
+               </div>
+
+               <button
+                  type="submit"
+                  class="w-full mt-2 bg-white text-[#0f172a] font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors active:scale-95 shadow-md"
+               >
+                  Send Message
+               </button>
+            </form>
+         </div>
+      </div>
+
+      <script>
+         // --- Gallery Configuration ---
+         // Currently set up with just ONE image to demonstrate the smart logic.
+         // Try adding a second image string separated by a comma to see the buttons and scrolling activate!
+         const galleryImages = [
+            "https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner",
+            // , 'https://placehold.co/800x500/334155/ffffff?text=Second+Image'
+         ];
+
+         // --- Smart Carousel Logic ---
+         const track = document.getElementById("carousel-track");
+         const indicators = document.getElementById("carousel-indicators");
+         const prevBtn = document.getElementById("prev-btn");
+         const nextBtn = document.getElementById("next-btn");
+
+         let slideCount = galleryImages.length;
+         let currentSlide = 0;
+         let slideInterval;
+         let dots = [];
+
+         function initGallery() {
+            // Check if we need controls based on image count
+            if (slideCount > 1) {
+               prevBtn.classList.remove("hidden");
+               nextBtn.classList.remove("hidden");
+               indicators.classList.remove("hidden");
+            }
+
+            galleryImages.forEach((src, index) => {
+               // Create Image Element
+               const img = document.createElement("img");
+               img.src = src;
+               img.alt = `Gallery Image ${index + 1}`;
+               img.className = "w-full h-full object-cover shrink-0";
+               track.appendChild(img);
+
+               // Create Dot Indicator Element (only useful if > 1 image, but we render it just in case)
+               const dot = document.createElement("div");
+               dot.className = `carousel-dot w-2 h-2 rounded-full transition-opacity cursor-pointer ${index === 0 ? "bg-white" : "bg-white/40"}`;
+               dot.onclick = () => goToSlide(index);
+               indicators.appendChild(dot);
+               dots.push(dot);
+            });
+         }
+
+         function updateCarousel() {
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((dot, index) => {
+               if (index === currentSlide) {
+                  dot.classList.replace("bg-white/40", "bg-white");
+               } else {
+                  dot.classList.replace("bg-white", "bg-white/40");
+               }
+            });
+         }
+
+         function goToSlide(index) {
+            if (slideCount <= 1) return;
+            currentSlide = index;
+            updateCarousel();
+            resetInterval();
+         }
+
+         function nextSlide() {
+            if (slideCount <= 1) return;
+            currentSlide = (currentSlide + 1) % slideCount;
+            updateCarousel();
+            resetInterval();
+         }
+
+         function prevSlide() {
+            if (slideCount <= 1) return;
+            currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+            updateCarousel();
+            resetInterval();
+         }
+
+         function startInterval() {
+            // Only auto-scroll if there is more than 1 image
+            if (slideCount > 1) {
+               slideInterval = setInterval(nextSlide, 2000);
+            }
+         }
+
+         function resetInterval() {
+            if (slideCount > 1) {
+               clearInterval(slideInterval);
+               startInterval();
+            }
+         }
+
+         // Initialize gallery and smart interval
+         initGallery();
+         startInterval();
+
+         // --- Modal Logic ---
+         const modal = document.getElementById("contact-modal");
+         const modalContent = document.getElementById("modal-content");
+
+         function openContactModal() {
+            modal.classList.remove("opacity-0", "pointer-events-none");
+            modalContent.classList.remove("scale-95");
+            modalContent.classList.add("scale-100");
+         }
+
+         function closeContactModal() {
+            modal.classList.add("opacity-0", "pointer-events-none");
+            modalContent.classList.remove("scale-100");
+            modalContent.classList.add("scale-95");
+         }
+
+         // Close modal when clicking outside the box
+         modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+               closeContactModal();
+            }
+         });
+      </script>
+   </body>
 </html>
