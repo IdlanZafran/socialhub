@@ -1,172 +1,495 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Idlan Zafran | Connect</title>
 
 <style>
+
+/* =========================
+   GLOBAL
+   ========================= */
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Helvetica, Arial, sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #0f172a 0%,
+        #1e293b 100%
+    );
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     min-height: 100vh;
+
     margin: 0;
+    padding: 30px 15px;
+
     color: white;
 }
 
-/* Main card */
+
+/* =========================
+   MAIN CARD
+   ========================= */
+
 .container {
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    max-width: 420px;
+
     text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    padding: 0 20px 40px 20px;
+
+    position: relative;
+    isolation: isolate;
+
+    /*
+        Dark translucent layer over the
+        blurred banner background.
+    */
+    background: rgba(15, 23, 42, 0.65);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
     border-radius: 24px;
-    border: 1px rgba(255, 255, 255, 0.1) solid;
+
+    padding: 0 24px 32px;
+
     overflow: hidden;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.30);
 }
+
+
+/* =========================
+   BLURRED BANNER BACKGROUND
+   ========================= */
+
+.container::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image: url("images/banner.png");
+
+    background-size: cover;
+    background-position: center;
+
+    filter: blur(25px);
+
+    opacity: 0.18;
+
+    /*
+        Slightly enlarge the image so
+        the blurred edges don't show.
+    */
+    transform: scale(1.1);
+
+    z-index: -2;
+}
+
+
+/* =========================
+   DARK OVERLAY
+   ========================= */
+
+.container::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    z-index: -1;
+}
+
+
+/* Keep all content above
+   the background layers */
+
+.container > * {
+    position: relative;
+    z-index: 1;
+}
+
 
 /* =========================
    BANNER
    ========================= */
 
 .banner {
-    width: calc(100% + 40px);
-    height: 220px;
-    margin-left: -20px;
-    margin-bottom: 30px;
+    width: calc(100% + 48px);
+
+    height: 190px;
+
+    margin-left: -24px;
+
     overflow: hidden;
 }
 
 .banner-img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+    object-position: center;
+
     display: block;
 }
+
 
 /* =========================
    PROFILE
    ========================= */
 
+.profile-section {
+    position: relative;
+
+    /*
+        Pull profile picture slightly
+        over the banner.
+    */
+    margin-top: -55px;
+}
+
 .profile-img {
     width: 110px;
     height: 110px;
+
     border-radius: 50%;
+
     object-fit: cover;
-    margin-bottom: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+
+    display: block;
+
+    margin: 0 auto 14px;
+
+    /*
+        Border separates profile
+        picture from banner.
+    */
+    border: 4px solid #172033;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.30);
 }
+
+
+/* =========================
+   NAME
+   ========================= */
 
 h1 {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
+    font-size: 1.55rem;
+
+    line-height: 1.2;
+
+    margin: 0 0 8px;
+
+    letter-spacing: -0.02em;
 }
 
-p {
-    opacity: 0.7;
-    font-size: 0.9rem;
-    margin-bottom: 30px;
+
+/* =========================
+   BIO
+   ========================= */
+
+.bio {
+    max-width: 330px;
+
+    margin: 0 auto 18px;
+
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 0.90rem;
+
+    line-height: 1.55;
 }
+
+
+/* =========================
+   CONTACT
+   ========================= */
+
+.contact {
+    margin: 0 0 24px;
+
+    font-size: 0.85rem;
+
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.contact a {
+    color: rgba(255, 255, 255, 0.90);
+
+    text-decoration: none;
+}
+
+.contact a:hover {
+    text-decoration: underline;
+}
+
 
 /* =========================
    LINKS
    ========================= */
 
-.link-card {
-    display: block;
-    background: white;
-    color: #0f172a;
-    text-decoration: none;
-    padding: 15px;
-    margin: 12px 0;
-    border-radius: 12px;
-    font-weight: 600;
-    transition: transform 0.2s;
+.links {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 11px;
 }
 
-.link-card:active {
-    transform: scale(0.95);
+
+.link-card {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 52px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    color: #0f172a;
+
+    text-decoration: none;
+
+    padding: 14px 18px;
+
+    border-radius: 13px;
+
+    font-size: 0.92rem;
+
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
+
+
+/* Desktop hover */
+
+.link-card:hover {
+    transform: translateY(-2px);
+
+    background: white;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+
+/* Mobile / click */
+
+.link-card:active {
+    transform: scale(0.97);
+}
+
 
 /* =========================
    MOBILE
    ========================= */
 
 @media (max-width: 480px) {
+
     body {
         align-items: flex-start;
-        padding-top: 20px;
-        padding-bottom: 20px;
+
+        padding: 20px 12px;
     }
 
     .container {
-        width: 90%;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 28px;
     }
 
     .banner {
-        height: 190px;
+        width: calc(100% + 40px);
+
+        margin-left: -20px;
+
+        height: 175px;
+    }
+
+    .profile-section {
+        margin-top: -50px;
+    }
+
+    .profile-img {
+        width: 100px;
+        height: 100px;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    .bio {
+        font-size: 0.86rem;
+
+        margin-bottom: 16px;
+    }
+
+    .contact {
+        margin-bottom: 22px;
+    }
+
+    .link-card {
+        min-height: 50px;
     }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <!-- BANNER -->
+    <!-- =========================
+         BANNER
+         ========================= -->
+
     <div class="banner">
+
         <img
             src="images/banner.png"
             alt="Idlan Zafran banner"
             class="banner-img"
         >
+
     </div>
 
-    <!-- PROFILE -->
-    <img
-        src="profilephoto.jpg"
-        alt="Idlan Zafran"
-        class="profile-img"
-    >
 
-    <h1>Idlan Zafran</h1>
+    <!-- =========================
+         PROFILE
+         ========================= -->
 
-    <p>Student engineer by day, business at night, research on weekends and developer on occasion.</p>
+    <div class="profile-section">
 
-    Contact me at: +60 11 5555 2330
+        <img
+            src="profilephoto.jpg"
+            alt="Idlan Zafran"
+            class="profile-img"
+        >
 
-    <!-- LINKS -->
-    <a href="https://just-capri-e34.notion.site/idlanzafran" class="link-card">
-        Web Portfolio
-    </a>
 
-    <a href="https://github.com/IdlanZafran" class="link-card">
-        GitHub
-    </a>
+        <h1>
+            Idlan Zafran
+        </h1>
 
-    <a href="https://idlanzafran.github.io/IdlanZafran-resume/" class="link-card">
-        Resume 1
-    </a>
 
-    <a href="https://canva.link/jxvk8usv0op05wp" class="link-card">
-        Resume 2
-    </a>
+        <p class="bio">
+            Student engineer by day, business at night,
+            research on weekends and developer on occasion.
+        </p>
 
-    <a href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie" class="link-card">
-        ResearchGate
-    </a>
 
-    <a href="https://www.linkedin.com/in/idlanzafran/" class="link-card">
-        LinkedIn
-    </a>
+        <div class="contact">
+
+            Contact me at:
+
+            <a href="tel:+601155552330">
+                +60 11 5555 2330
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         LINKS
+         ========================= -->
+
+    <div class="links">
+
+        <a
+            href="https://just-capri-e34.notion.site/idlanzafran"
+            class="link-card"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Web Portfolio
+        </a>
+
+
+        <a
+            href="https://github.com/IdlanZafran"
+            class="link-card"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            GitHub
+        </a>
+
+
+        <a
+            href="https://idlanzafran.github.io/IdlanZafran-resume/"
+            class="link-card"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Resume
+        </a>
+
+
+        <a
+            href="https://canva.link/jxvk8usv0op05wp"
+            class="link-card"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Resume — Canva
+        </a>
+
+
+        <a
+            href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie"
+            class="link-card"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            ResearchGate
+        </a>
+
+
+        <a
+            href="https://www.linkedin.com/in/idlanzafran/"
+            class="link-card"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            LinkedIn
+        </a>
+
+    </div>
 
 </div>
 
 </body>
 </html>
+```
