@@ -22,75 +22,41 @@
          }
 
          body {
-            font-family:
-               -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-               Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
-         }
-
-         /* Hide carousel/modal scrollbar */
-         .no-scrollbar::-webkit-scrollbar {
-            display: none;
-         }
-         .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
          }
       </style>
    </head>
-   <body
-      class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] min-h-screen flex items-center justify-center p-4 text-white relative"
-   >
-      <!-- Main Glass Container -->
-      <div
-         class="w-full max-w-[400px] bg-white/5 backdrop-blur-md border border-white/10 rounded-[24px] overflow-hidden shadow-2xl pb-8 mt-8 mb-8"
-      >
+   <body class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] min-h-screen flex items-center justify-center p-4 text-white relative">
+      
+      <div class="w-full max-w-[400px] bg-white/5 backdrop-blur-md border border-white/10 rounded-[24px] overflow-hidden shadow-2xl pb-8 mt-8 mb-8 relative z-10">
+         
          <!-- Static Banner Image (Clickable) -->
-         <div
+         <div 
             class="relative w-full h-[250px] overflow-hidden bg-black/20 cursor-pointer group"
             onclick="openLightbox()"
             title="Click to view full image"
          >
-            <img
-               src="images/banner.png"
-               alt="Profile Banner"
+            <img 
+               src="images/banner.png" 
+               alt="Profile Banner" 
                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-               onerror="
-                  this.src =
-                     'https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner'
-               "
+               onerror="this.src='https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner'"
             />
             <!-- Overlay icon on hover for affordance -->
-            <div
-               class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            >
-               <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-8 h-8 text-white"
-               >
-                  <path
-                     stroke-linecap="round"
-                     stroke-linejoin="round"
-                     d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
-                  />
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-10 h-10 text-white drop-shadow-md">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
                </svg>
             </div>
          </div>
 
-         <!-- Profile Info Section -->
          <div class="px-6 flex flex-col items-center -mt-12 relative z-20">
             <img
                src="profilephoto.jpg"
-               onerror="
-                  this.src =
-                     'https://placehold.co/110x110/ffffff/0f172a?text=IZ'
-               "
+               onerror="this.src='https://placehold.co/110x110/ffffff/0f172a?text=IZ'"
                alt="Idlan Zafran"
-               class="w-[110px] h-[110px] rounded-full object-cover border-4 border-[#121c2d] shadow-lg mb-3 bg-white"
+               class="w-[110px] h-[110px] rounded-full object-cover border-4 border-white shadow-lg mb-3 bg-white"
             />
 
             <h1 class="text-2xl font-bold mb-1">Idlan Zafran</h1>
@@ -98,14 +64,10 @@
                Researcher & Developer
             </p>
 
-            <p
-               class="text-center text-sm text-white/80 leading-relaxed mb-6 px-2"
-            >
-               Student engineer by day, business at night, research on weekends
-               and developer on occasion.
+            <p class="text-center text-sm text-white/80 leading-relaxed mb-6 px-2">
+               Student engineer by day, business at night, research on weekends and developer on occasion.
             </p>
 
-            <!-- Links Container -->
             <div class="w-full flex flex-col space-y-3">
                <a
                   href="https://just-capri-e34.notion.site/idlanzafran"
@@ -115,7 +77,7 @@
                >
                   Web Portfolio
                </a>
-
+               
                <a
                   href="https://github.com/IdlanZafran"
                   target="_blank"
@@ -124,25 +86,16 @@
                >
                   GitHub
                </a>
-
+               
                <a
                   href="https://idlanzafran.github.io/IdlanZafran-resume/"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
                >
-                  Resume 1
+                  Resume
                </a>
-
-               <a
-                  href="https://canva.link/jxvk8usv0op05wp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  Resume 2
-               </a>
-
+               
                <a
                   href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie"
                   target="_blank"
@@ -151,7 +104,7 @@
                >
                   ResearchGate
                </a>
-
+               
                <a
                   href="https://www.linkedin.com/in/idlanzafran/"
                   target="_blank"
@@ -161,8 +114,7 @@
                   LinkedIn
                </a>
 
-               <div class="h-2"></div>
-               <!-- Small visual separator -->
+               <div class="h-2"></div> <!-- Small visual separator -->
 
                <button
                   onclick="openContactModal()"
@@ -174,14 +126,14 @@
          </div>
       </div>
 
-      <!-- Contact Modal -->
+      <!-- CRITICAL FIX: The default classes include pointer-events-none to prevent blocking clicks -->
       <div
          id="contact-modal"
          class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
       >
          <div
-            class="bg-[#1e293b] w-full max-w-[400px] rounded-[24px] border border-white/10 p-6 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto no-scrollbar"
-            id="modal-content"
+            class="bg-[#1e293b] w-full max-w-[400px] rounded-[24px] border border-white/10 p-6 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto"
+            id="contact-modal-content"
          >
             <div class="flex justify-between items-center mb-6">
                <h2 class="text-xl font-bold text-white">Get in Touch</h2>
@@ -189,19 +141,8 @@
                   onclick="closeContactModal()"
                   class="text-white/50 hover:text-white transition-colors"
                >
-                  <svg
-                     xmlns="http://www.w3.org/2000/svg"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="2"
-                     stroke="currentColor"
-                     class="w-6 h-6"
-                  >
-                     <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                     />
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                </button>
             </div>
@@ -213,111 +154,62 @@
                class="space-y-4"
             >
                <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1"
-                     >Name</label
-                  >
-                  <input
-                     type="text"
-                     name="name"
-                     required
-                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-                     placeholder="John Doe"
-                  />
+                  <label class="block text-sm font-medium text-white/70 mb-1">Name</label>
+                  <input type="text" name="name" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="John Doe" />
                </div>
                <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1"
-                     >Association / Company</label
-                  >
-                  <input
-                     type="text"
-                     name="association"
-                     required
-                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-                     placeholder="University / Startup Inc."
-                  />
+                  <label class="block text-sm font-medium text-white/70 mb-1">Association / Company</label>
+                  <input type="text" name="association" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="University / Startup Inc." />
                </div>
                <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1"
-                     >Phone Number</label
-                  >
-                  <input
-                     type="tel"
-                     name="phone"
-                     required
-                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
-                     placeholder="+60 12 345 6789"
-                  />
+                  <label class="block text-sm font-medium text-white/70 mb-1">Phone Number</label>
+                  <input type="tel" name="phone" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="+60 12 345 6789" />
                </div>
                <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1"
-                     >Details</label
-                  >
-                  <textarea
-                     name="message"
-                     required
-                     rows="3"
-                     class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none"
-                     placeholder="Reason for reaching out..."
-                  ></textarea>
+                  <label class="block text-sm font-medium text-white/70 mb-1">Details</label>
+                  <textarea name="message" required rows="3" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none" placeholder="Reason for reaching out..."></textarea>
                </div>
 
-               <button
-                  type="submit"
-                  class="w-full mt-2 bg-white text-[#0f172a] font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors active:scale-95 shadow-md"
-               >
+               <button type="submit" class="w-full mt-2 bg-white text-[#0f172a] font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors active:scale-95 shadow-md">
                   Send Message
                </button>
             </form>
          </div>
       </div>
 
-      <!-- Lightbox Modal -->
       <div
          id="lightbox-modal"
          class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
       >
-         <!-- Close Button for Lightbox -->
          <button
             onclick="closeLightbox()"
             class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 bg-black/50 rounded-full hover:bg-black/80 z-50"
          >
-            <svg
-               xmlns="http://www.w3.org/2000/svg"
-               fill="none"
-               viewBox="0 0 24 24"
-               stroke-width="2"
-               stroke="currentColor"
-               class="w-8 h-8"
-            >
-               <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-               />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
          </button>
-
-         <div
-            class="relative w-full h-full flex justify-center items-center pointer-events-none"
-         >
-            <img
+         
+         <div class="relative w-full h-full flex justify-center items-center pointer-events-none">
+            <!-- Ensure the image itself captures pointer events when open so you can interact with it if needed -->
+            <img 
                id="lightbox-img"
-               src="images/banner.png"
-               alt="Full Banner"
-               class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300 pointer-events-auto"
-               onerror="
-                  this.src =
-                     'https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner'
-               "
+               src="images/banner.png" 
+               alt="Full Banner" 
+               class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300 pointer-events-auto"
+               onerror="this.src='https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner'"
             />
          </div>
       </div>
 
       <script>
-         // --- Contact Modal Logic ---
          const contactModal = document.getElementById("contact-modal");
-         const contactModalContent = document.getElementById("modal-content");
+         const contactModalContent = document.getElementById("contact-modal-content");
+         
+         const lightboxModal = document.getElementById("lightbox-modal");
+         const lightboxImg = document.getElementById("lightbox-img");
 
+         // Remove pointer-events-none when opening, add back when closing
          function openContactModal() {
             contactModal.classList.remove("opacity-0", "pointer-events-none");
             contactModalContent.classList.remove("scale-95");
@@ -329,17 +221,6 @@
             contactModalContent.classList.remove("scale-100");
             contactModalContent.classList.add("scale-95");
          }
-
-         // Close Contact Modal on outside click
-         contactModal.addEventListener("click", (e) => {
-            if (e.target === contactModal) {
-               closeContactModal();
-            }
-         });
-
-         // --- Lightbox Logic ---
-         const lightboxModal = document.getElementById("lightbox-modal");
-         const lightboxImg = document.getElementById("lightbox-img");
 
          function openLightbox() {
             lightboxModal.classList.remove("opacity-0", "pointer-events-none");
@@ -353,7 +234,13 @@
             lightboxImg.classList.add("scale-95");
          }
 
-         // Close Lightbox on outside click
+         // Close modals when clicking the dark backdrop
+         contactModal.addEventListener("click", (e) => {
+            if (e.target === contactModal) {
+               closeContactModal();
+            }
+         });
+
          lightboxModal.addEventListener("click", (e) => {
             if (e.target === lightboxModal) {
                closeLightbox();
