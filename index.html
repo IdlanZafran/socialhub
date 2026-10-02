@@ -1,5 +1,5 @@
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,7 @@
     <style>
         /* =========================================================
            RESET
-        ========================================================= */
+        ========================================================== */
 
         *,
         *::before,
@@ -29,15 +29,19 @@
             box-sizing: border-box;
         }
 
-        html {
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
             min-height: 100%;
-            background: #0f172a;
         }
 
         body {
-            margin: 0;
             min-height: 100vh;
             min-height: 100dvh;
+
+            overflow-x: hidden;
 
             font-family:
                 -apple-system,
@@ -48,10 +52,7 @@
                 Arial,
                 sans-serif;
 
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-
-            color: #ffffff;
+            color: white;
 
             background:
                 linear-gradient(
@@ -60,59 +61,27 @@
                     #1e293b 100%
                 );
 
-            overflow-x: hidden;
-        }
-
-        body.modal-open {
-            overflow: hidden;
-        }
-
-        button,
-        input,
-        textarea {
-            font: inherit;
-        }
-
-        button,
-        a {
-            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         img {
             display: block;
-            max-width: 100%;
         }
 
-        a {
-            color: inherit;
+        a,
+        button {
+            -webkit-tap-highlight-color: transparent;
         }
 
-
-        /* =========================================================
-           SCROLLBAR
-        ========================================================= */
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.4);
+        button {
+            font: inherit;
         }
 
 
         /* =========================================================
            PAGE
-        ========================================================= */
+        ========================================================== */
 
         .page {
             width: 100%;
@@ -132,26 +101,24 @@
 
 
         /* =========================================================
-           MAIN CARD
-        ========================================================= */
+           CARD
+        ========================================================== */
 
         .card {
             position: relative;
-            z-index: 10;
 
             width: 100%;
             max-width: 400px;
 
-            margin-top: 32px;
-            margin-bottom: 32px;
-
-            padding-bottom: 32px;
+            margin: 32px 0;
 
             overflow: hidden;
 
             background: rgba(255, 255, 255, 0.05);
 
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+
             border-radius: 24px;
 
             box-shadow:
@@ -163,43 +130,49 @@
 
 
         /* =========================================================
-           BANNER
-        ========================================================= */
+           BANNER AREA
+        ========================================================== */
 
-        .banner-button {
+        /*
+         * The banner is deliberately NOT a button.
+         *
+         * The image itself cannot receive pointer events.
+         * The transparent button above it handles the click.
+         */
+
+        .banner {
             position: relative;
-
-            display: block;
 
             width: 100%;
             height: 250px;
 
-            padding: 0;
-            margin: 0;
-
             overflow: hidden;
 
-            border: 0;
-            border-radius: 0;
-
-            background: rgba(0, 0, 0, 0.2);
-
-            cursor: pointer;
-
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
-        .banner-button:focus-visible {
-            outline: 3px solid rgba(96, 165, 250, 0.9);
-            outline-offset: -3px;
+            background: #1e293b;
         }
 
         .banner-image {
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
             width: 100%;
             height: 100%;
 
+            display: block;
+
             object-fit: cover;
+
+            /*
+             * CRITICAL:
+             *
+             * The image can NEVER receive a click.
+             */
+            pointer-events: none;
+
+            user-select: none;
+            -webkit-user-drag: none;
 
             transform: scale(1);
 
@@ -207,36 +180,78 @@
                 transform 500ms ease;
         }
 
-        .banner-button:hover .banner-image {
+        .banner:hover .banner-image {
             transform: scale(1.05);
         }
 
-        /*
-         * IMPORTANT:
-         *
-         * pointer-events: none prevents this visual overlay
-         * from ever blocking clicks/touches.
-         */
+
+        /* =========================================================
+           BANNER CLICK LAYER
+        ========================================================== */
+
+        .banner-click {
+            position: absolute;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            padding: 0;
+            margin: 0;
+
+            border: 0;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            z-index: 2;
+
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .banner-click:focus-visible {
+            outline:
+                3px solid rgba(96, 165, 250, 0.95);
+
+            outline-offset: -3px;
+        }
+
+
+        /* =========================================================
+           BANNER OVERLAY
+        ========================================================== */
+
         .banner-overlay {
             position: absolute;
+
             inset: 0;
+
+            z-index: 1;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: rgba(0, 0, 0, 0.40);
+            background:
+                rgba(0, 0, 0, 0.40);
 
             opacity: 0;
 
+            /*
+             * CRITICAL:
+             * The overlay itself cannot receive clicks.
+             */
             pointer-events: none;
 
             transition:
                 opacity 300ms ease;
         }
 
-        .banner-button:hover .banner-overlay,
-        .banner-button:focus-visible .banner-overlay {
+        .banner:hover .banner-overlay,
+        .banner:focus-within .banner-overlay {
             opacity: 1;
         }
 
@@ -244,7 +259,7 @@
             width: 40px;
             height: 40px;
 
-            color: #ffffff;
+            color: white;
 
             filter:
                 drop-shadow(
@@ -254,37 +269,49 @@
 
 
         /* =========================================================
-           PROFILE CONTENT
-        ========================================================= */
+           PROFILE
+        ========================================================== */
 
-        .profile-content {
+        .profile {
             position: relative;
-            z-index: 20;
 
             display: flex;
             flex-direction: column;
             align-items: center;
 
-            padding: 0 24px;
+            padding:
+                0 24px 32px;
 
             margin-top: -48px;
+
+            z-index: 5;
         }
 
         .profile-photo {
             width: 110px;
             height: 110px;
 
-            margin-bottom: 12px;
-
             object-fit: cover;
 
-            border: 4px solid #ffffff;
+            margin-bottom: 12px;
+
+            border:
+                4px solid white;
+
             border-radius: 50%;
 
-            background: #ffffff;
+            background: white;
 
             box-shadow:
                 0 10px 20px rgba(0, 0, 0, 0.25);
+
+            /*
+             * Prevent the image from being the click target.
+             */
+            pointer-events: none;
+
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .name {
@@ -301,9 +328,9 @@
             max-width: 340px;
 
             margin: 0 0 24px;
-            padding: 0 8px;
 
-            color: rgba(255, 255, 255, 0.80);
+            color:
+                rgba(255, 255, 255, 0.80);
 
             font-size: 14px;
             line-height: 1.6;
@@ -314,7 +341,7 @@
 
         /* =========================================================
            LINKS
-        ========================================================= */
+        ========================================================== */
 
         .links {
             display: flex;
@@ -335,7 +362,8 @@
             border-radius: 12px;
 
             color: #0f172a;
-            background: #ffffff;
+
+            background: white;
 
             font-size: 16px;
             line-height: 1.25;
@@ -361,26 +389,28 @@
         }
 
         .link-button:focus-visible {
-            outline: 3px solid rgba(96, 165, 250, 0.9);
+            outline:
+                3px solid rgba(96, 165, 250, 0.95);
+
             outline-offset: 3px;
         }
 
 
         /* =========================================================
            CONTACT BUTTON
-        ========================================================= */
+        ========================================================== */
 
         .contact-button {
-            display: block;
-
             width: 100%;
 
             padding: 14px 16px;
 
-            border: 1px solid rgba(255, 255, 255, 0.20);
+            border:
+                1px solid rgba(255, 255, 255, 0.20);
+
             border-radius: 12px;
 
-            color: #ffffff;
+            color: white;
 
             background:
                 linear-gradient(
@@ -392,8 +422,6 @@
             font-size: 16px;
             line-height: 1.25;
             font-weight: 700;
-
-            text-align: center;
 
             cursor: pointer;
 
@@ -414,7 +442,9 @@
         }
 
         .contact-button:focus-visible {
-            outline: 3px solid rgba(147, 197, 253, 0.95);
+            outline:
+                3px solid rgba(147, 197, 253, 0.95);
+
             outline-offset: 3px;
         }
 
@@ -424,73 +454,60 @@
 
 
         /* =========================================================
-           MODAL SYSTEM
-        ========================================================= */
+           MODAL BACKDROP
+        ========================================================== */
 
         /*
          * IMPORTANT:
          *
-         * A closed modal is:
+         * Closed modal is NOT merely transparent.
          *
-         * 1. opacity: 0
-         * 2. visibility: hidden
-         * 3. pointer-events: none
+         * It is completely removed from the rendering tree using
+         * display:none.
          *
-         * Therefore it cannot accidentally sit over the page
-         * and block clicks.
+         * Therefore it physically cannot block anything.
          */
 
         .modal {
+            display: none;
+
             position: fixed;
+
             inset: 0;
 
-            display: flex;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+
             align-items: center;
             justify-content: center;
 
-            width: 100%;
-            height: 100%;
+            padding: 16px;
 
-            padding:
-                max(16px, env(safe-area-inset-top))
-                max(16px, env(safe-area-inset-right))
-                max(16px, env(safe-area-inset-bottom))
-                max(16px, env(safe-area-inset-left));
-
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-
-            transition:
-                opacity 300ms ease,
-                visibility 300ms ease;
+            z-index: 1000;
         }
 
-        .modal-visible {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
+        .modal.open {
+            display: flex;
         }
 
 
         /* =========================================================
            CONTACT MODAL
-        ========================================================= */
+        ========================================================== */
 
-        #contact-modal {
-            z-index: 50;
-
-            background: rgba(0, 0, 0, 0.60);
+        .contact-modal {
+            background:
+                rgba(0, 0, 0, 0.60);
 
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
 
-        .modal-content {
-            position: relative;
-
+        .modal-box {
             width: 100%;
             max-width: 400px;
+
             max-height: 90vh;
             max-height: 90dvh;
 
@@ -500,20 +517,28 @@
 
             background: #1e293b;
 
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+
             border-radius: 24px;
 
             box-shadow:
                 0 25px 50px -12px rgba(0, 0, 0, 0.60);
 
-            transform: scale(0.95);
-
-            transition:
-                transform 300ms ease;
+            animation:
+                modalIn 180ms ease-out;
         }
 
-        .modal-visible .modal-content {
-            transform: scale(1);
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .modal-header {
@@ -526,8 +551,6 @@
 
         .modal-title {
             margin: 0;
-
-            color: #ffffff;
 
             font-size: 20px;
             line-height: 1.3;
@@ -545,26 +568,26 @@
             padding: 8px;
 
             border: 0;
-            border-radius: 999px;
+            border-radius: 50%;
 
-            color: rgba(255, 255, 255, 0.70);
+            color:
+                rgba(255, 255, 255, 0.70);
+
             background: transparent;
 
             cursor: pointer;
-
-            transition:
-                color 150ms ease,
-                background-color 150ms ease;
         }
 
         .close-button:hover {
-            color: #ffffff;
-            background: rgba(0, 0, 0, 0.25);
+            color: white;
+
+            background:
+                rgba(0, 0, 0, 0.25);
         }
 
         .close-button:focus-visible {
-            outline: 3px solid rgba(96, 165, 250, 0.9);
-            outline-offset: 2px;
+            outline:
+                3px solid rgba(96, 165, 250, 0.95);
         }
 
         .close-icon {
@@ -575,7 +598,7 @@
 
         /* =========================================================
            FORM
-        ========================================================= */
+        ========================================================== */
 
         .contact-form {
             display: flex;
@@ -590,12 +613,12 @@
         }
 
         .form-label {
-            margin-bottom: 4px;
+            margin-bottom: 5px;
 
-            color: rgba(255, 255, 255, 0.70);
+            color:
+                rgba(255, 255, 255, 0.70);
 
             font-size: 14px;
-            line-height: 1.4;
             font-weight: 500;
         }
 
@@ -605,17 +628,17 @@
 
             padding: 10px 16px;
 
-            border: 1px solid rgba(255, 255, 255, 0.10);
-            border-radius: 8px;
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
 
-            color: #ffffff;
-            background: rgba(0, 0, 0, 0.20);
+            border-radius: 8px;
 
             outline: none;
 
-            transition:
-                border-color 150ms ease,
-                box-shadow 150ms ease;
+            color: white;
+
+            background:
+                rgba(0, 0, 0, 0.20);
         }
 
         .form-input {
@@ -630,7 +653,8 @@
 
         .form-input::placeholder,
         .form-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.30);
+            color:
+                rgba(255, 255, 255, 0.30);
         }
 
         .form-input:focus,
@@ -652,18 +676,12 @@
             border-radius: 12px;
 
             color: #0f172a;
-            background: #ffffff;
+
+            background: white;
 
             font-weight: 700;
 
             cursor: pointer;
-
-            box-shadow:
-                0 4px 8px rgba(0, 0, 0, 0.18);
-
-            transition:
-                background-color 150ms ease,
-                transform 100ms ease;
         }
 
         .submit-button:hover {
@@ -674,54 +692,54 @@
             transform: scale(0.97);
         }
 
-        .submit-button:focus-visible {
-            outline: 3px solid rgba(96, 165, 250, 0.9);
-            outline-offset: 3px;
-        }
-
 
         /* =========================================================
            LIGHTBOX
-        ========================================================= */
+        ========================================================== */
 
-        #lightbox-modal {
-            z-index: 60;
+        /*
+         * This lightbox is display:none when closed.
+         *
+         * THERE IS NO INVISIBLE FULL-SCREEN IMAGE.
+         */
 
-            background: rgba(0, 0, 0, 0.90);
-
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-
-            padding: 16px;
+        .lightbox {
+            background:
+                rgba(0, 0, 0, 0.92);
         }
 
         .lightbox-close {
             position: absolute;
 
-            top: max(16px, env(safe-area-inset-top));
-            right: max(16px, env(safe-area-inset-right));
+            top:
+                max(16px, env(safe-area-inset-top));
 
-            z-index: 70;
+            right:
+                max(16px, env(safe-area-inset-right));
+
+            z-index: 1002;
+
+            background:
+                rgba(0, 0, 0, 0.50);
         }
 
-        .lightbox-container {
-            position: relative;
-
+        .lightbox-image-wrapper {
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             width: 100%;
             height: 100%;
 
+            padding: 24px;
+
             pointer-events: none;
         }
 
-        /*
-         * The container itself doesn't catch pointer events.
-         * The image does.
-         */
         .lightbox-image {
+            display: block;
+
             max-width: 100%;
             max-height: 85vh;
             max-height: 85dvh;
@@ -733,33 +751,24 @@
 
             border-radius: 12px;
 
-            box-shadow:
-                0 25px 50px -12px rgba(0, 0, 0, 0.60);
+            /*
+             * The image itself does not capture clicks.
+             */
+            pointer-events: none;
 
-            transform: scale(0.95);
-
-            pointer-events: auto;
-
-            transition:
-                transform 300ms ease;
-        }
-
-        #lightbox-modal.modal-visible .lightbox-image {
-            transform: scale(1);
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
 
         /* =========================================================
            MOBILE
-        ========================================================= */
+        ========================================================== */
 
         @media (max-width: 480px) {
 
             .page {
                 align-items: flex-start;
-
-                padding-top:
-                    max(16px, env(safe-area-inset-top));
             }
 
             .card {
@@ -769,11 +778,11 @@
                 border-radius: 20px;
             }
 
-            .banner-button {
+            .banner {
                 height: 220px;
             }
 
-            .profile-content {
+            .profile {
                 padding-left: 20px;
                 padding-right: 20px;
             }
@@ -787,7 +796,7 @@
                 font-size: 22px;
             }
 
-            .modal-content {
+            .modal-box {
                 max-height: 88vh;
                 max-height: 88dvh;
 
@@ -805,20 +814,18 @@
 
         /* =========================================================
            REDUCED MOTION
-        ========================================================= */
+        ========================================================== */
 
         @media (prefers-reduced-motion: reduce) {
 
             *,
             *::before,
             *::after {
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
                 animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
 
-            .banner-button:hover .banner-image {
+            .banner:hover .banner-image {
                 transform: none;
             }
         }
@@ -830,41 +837,30 @@
 
     <main class="page">
 
-        <!-- =====================================================
-             MAIN CARD
-        ====================================================== -->
-
         <section class="card">
 
             <!-- =================================================
                  BANNER
             ================================================== -->
 
-            <button
-                type="button"
-                class="banner-button"
-                id="banner-button"
-                aria-label="View full banner image"
-                title="Click to view full image"
+            <div
+                class="banner"
+                id="banner"
             >
 
                 <img
                     id="banner-image"
                     class="banner-image"
                     src="images/banner.png"
-                    alt="Profile Banner"
+                    alt=""
                     width="800"
                     height="500"
                     fetchpriority="high"
                     decoding="async"
+                    draggable="false"
                 >
 
-                <!--
-                    IMPORTANT:
-                    pointer-events: none in CSS means this
-                    overlay can NEVER block the button.
-                -->
-                <span
+                <div
                     class="banner-overlay"
                     aria-hidden="true"
                 >
@@ -882,16 +878,27 @@
                             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
                         />
                     </svg>
-                </span>
+                </div>
 
-            </button>
+                <!--
+                    This is the ONLY element that handles
+                    clicking the banner.
+                -->
+                <button
+                    type="button"
+                    id="banner-click"
+                    class="banner-click"
+                    aria-label="Open banner image"
+                ></button>
+
+            </div>
 
 
             <!-- =================================================
                  PROFILE
             ================================================== -->
 
-            <div class="profile-content">
+            <div class="profile">
 
                 <img
                     id="profile-photo"
@@ -901,11 +908,14 @@
                     width="110"
                     height="110"
                     decoding="async"
+                    draggable="false"
                 >
+
 
                 <h1 class="name">
                     Idlan Zafran
                 </h1>
+
 
                 <p class="description">
                     Student engineer by day, business at night,
@@ -913,88 +923,80 @@
                 </p>
 
 
-                <!-- =============================================
-                     LINKS
-                ============================================== -->
-
                 <div class="links">
 
                     <a
+                        class="link-button"
                         href="https://just-capri-e34.notion.site/idlanzafran"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link-button"
                     >
                         Web Portfolio
                     </a>
 
 
                     <a
+                        class="link-button"
                         href="https://github.com/IdlanZafran"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link-button"
                     >
                         GitHub
                     </a>
 
 
                     <a
+                        class="link-button"
                         href="https://idlanzafran.github.io/IdlanZafran-resume/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link-button"
                     >
                         Resume 1
                     </a>
 
 
                     <a
+                        class="link-button"
                         href="https://idlanzafran.github.io/IdlanZafran-resume/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link-button"
                     >
                         Resume 2
                     </a>
 
 
                     <a
+                        class="link-button"
                         href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link-button"
                     >
                         ResearchGate
                     </a>
 
 
                     <a
+                        class="link-button"
                         href="https://www.linkedin.com/in/idlanzafran/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link-button"
                     >
                         LinkedIn
                     </a>
 
 
                     <a
+                        class="link-button"
                         href="https://www.arduinolibraries.info/authors/idlanzafran"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="link-button"
                     >
                         Arduino
                     </a>
 
 
-                    <div class="separator" aria-hidden="true"></div>
+                    <div class="separator"></div>
 
-
-                    <!-- =========================================
-                         CONTACT
-                    ========================================== -->
 
                     <button
                         type="button"
@@ -1016,42 +1018,39 @@
     <!-- =========================================================
          CONTACT MODAL
 
-         IMPORTANT:
-         Starts with:
-         opacity: 0
-         visibility: hidden
-         pointer-events: none
+         CLOSED = display:none
 
-         Therefore it cannot block the page while closed.
+         It literally does not exist as a clickable layer.
     ========================================================== -->
 
     <div
         id="contact-modal"
-        class="modal"
+        class="modal contact-modal"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="contact-modal-title"
+        aria-labelledby="contact-title"
         aria-hidden="true"
     >
 
         <div
-            class="modal-content"
-            id="contact-modal-content"
+            class="modal-box"
+            id="contact-modal-box"
         >
 
             <div class="modal-header">
 
                 <h2
                     class="modal-title"
-                    id="contact-modal-title"
+                    id="contact-title"
                 >
                     Get in Touch
                 </h2>
 
+
                 <button
                     type="button"
                     class="close-button"
-                    id="contact-close-button"
+                    id="contact-close"
                     aria-label="Close contact form"
                 >
 
@@ -1184,41 +1183,27 @@
 
 
     <!-- =========================================================
-         IMAGE LIGHTBOX
+         LIGHTBOX
+
+         CLOSED = display:none
+
+         There is NO image in the lightbox until opened.
     ========================================================== -->
 
     <div
         id="lightbox-modal"
-        class="modal"
+        class="modal lightbox"
         role="dialog"
         aria-modal="true"
         aria-labelledby="lightbox-title"
         aria-hidden="true"
     >
 
-        <h2
-            id="lightbox-title"
-            style="
-                position:absolute;
-                width:1px;
-                height:1px;
-                padding:0;
-                margin:-1px;
-                overflow:hidden;
-                clip:rect(0,0,0,0);
-                white-space:nowrap;
-                border:0;
-            "
-        >
-            Full Banner Image
-        </h2>
-
-
         <button
             type="button"
+            id="lightbox-close"
             class="close-button lightbox-close"
-            id="lightbox-close-button"
-            aria-label="Close full banner image"
+            aria-label="Close image"
         >
 
             <svg
@@ -1240,18 +1225,18 @@
 
 
         <div
-            class="lightbox-container"
-            id="lightbox-container"
+            class="lightbox-image-wrapper"
+            id="lightbox-wrapper"
         >
 
             <img
                 id="lightbox-image"
                 class="lightbox-image"
-                src="images/banner.png"
+                src=""
                 alt="Full Banner"
                 width="800"
                 height="500"
-                decoding="async"
+                draggable="false"
             >
 
         </div>
@@ -1266,18 +1251,19 @@
     <script>
         "use strict";
 
+
         /* =====================================================
            ELEMENTS
         ====================================================== */
 
-        const bannerButton =
-            document.getElementById("banner-button");
+        const banner =
+            document.getElementById("banner");
 
         const bannerImage =
             document.getElementById("banner-image");
 
-        const profilePhoto =
-            document.getElementById("profile-photo");
+        const bannerClick =
+            document.getElementById("banner-click");
 
         const contactButton =
             document.getElementById("contact-button");
@@ -1285,99 +1271,67 @@
         const contactModal =
             document.getElementById("contact-modal");
 
-        const contactModalContent =
-            document.getElementById("contact-modal-content");
+        const contactModalBox =
+            document.getElementById("contact-modal-box");
 
-        const contactCloseButton =
-            document.getElementById("contact-close-button");
+        const contactClose =
+            document.getElementById("contact-close");
 
         const lightboxModal =
             document.getElementById("lightbox-modal");
 
-        const lightboxContainer =
-            document.getElementById("lightbox-container");
-
         const lightboxImage =
             document.getElementById("lightbox-image");
 
-        const lightboxCloseButton =
-            document.getElementById("lightbox-close-button");
+        const lightboxClose =
+            document.getElementById("lightbox-close");
+
+        const lightboxWrapper =
+            document.getElementById("lightbox-wrapper");
 
 
         /* =====================================================
-           IMAGE FALLBACKS
+           IMAGE SAFETY
         ====================================================== */
 
         /*
-         * Prevent an image error from repeatedly triggering.
+         * These handlers do NOT create external fallback images.
          *
-         * If you have local fallback images, you can replace
-         * these URLs with:
-         *
-         * images/banner-fallback.jpg
-         * images/profile-fallback.jpg
+         * This prevents an image failure from creating another
+         * network dependency.
          */
 
-        bannerImage.addEventListener("error", function () {
+        bannerImage.addEventListener(
+            "error",
+            function () {
 
-            if (this.dataset.fallbackApplied === "true") {
-                return;
+                this.style.display = "none";
+
+                banner.style.background =
+                    "#1e293b";
             }
-
-            this.dataset.fallbackApplied = "true";
-
-            this.src =
-                "https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner";
-        });
-
-
-        profilePhoto.addEventListener("error", function () {
-
-            if (this.dataset.fallbackApplied === "true") {
-                return;
-            }
-
-            this.dataset.fallbackApplied = "true";
-
-            this.src =
-                "https://placehold.co/110x110/ffffff/0f172a?text=IZ";
-        });
-
-
-        lightboxImage.addEventListener("error", function () {
-
-            if (this.dataset.fallbackApplied === "true") {
-                return;
-            }
-
-            this.dataset.fallbackApplied = "true";
-
-            this.src =
-                "https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner";
-        });
+        );
 
 
         /* =====================================================
-           BODY SCROLL LOCK
+           MODAL HELPERS
         ====================================================== */
 
-        function lockBodyScroll() {
-            document.body.classList.add("modal-open");
+        function lockScroll() {
+            document.body.style.overflow = "hidden";
         }
 
-        function unlockBodyScroll() {
 
-            /*
-             * Only unlock scrolling if neither modal is visible.
-             */
+        function unlockScroll() {
+
             const contactOpen =
-                contactModal.classList.contains("modal-visible");
+                contactModal.classList.contains("open");
 
             const lightboxOpen =
-                lightboxModal.classList.contains("modal-visible");
+                lightboxModal.classList.contains("open");
 
             if (!contactOpen && !lightboxOpen) {
-                document.body.classList.remove("modal-open");
+                document.body.style.overflow = "";
             }
         }
 
@@ -1388,46 +1342,43 @@
 
         function openContactModal() {
 
-            /*
-             * Close the other modal first.
-             */
             closeLightbox();
 
-            contactModal.classList.add("modal-visible");
+            contactModal.classList.add("open");
 
             contactModal.setAttribute(
                 "aria-hidden",
                 "false"
             );
 
-            lockBodyScroll();
+            lockScroll();
 
-            /*
-             * Focus the first input after the animation starts.
-             */
-            window.setTimeout(function () {
+            window.setTimeout(
+                function () {
 
-                const firstInput =
-                    contactModal.querySelector("input");
+                    const input =
+                        document.getElementById("name");
 
-                if (firstInput) {
-                    firstInput.focus();
-                }
+                    if (input) {
+                        input.focus();
+                    }
 
-            }, 50);
+                },
+                50
+            );
         }
 
 
         function closeContactModal() {
 
-            contactModal.classList.remove("modal-visible");
+            contactModal.classList.remove("open");
 
             contactModal.setAttribute(
                 "aria-hidden",
                 "true"
             );
 
-            unlockBodyScroll();
+            unlockScroll();
         }
 
 
@@ -1437,90 +1388,112 @@
 
         function openLightbox() {
 
-            /*
-             * Close contact modal first.
-             */
             closeContactModal();
 
             /*
-             * Make sure the lightbox image uses the same
-             * source as the main banner.
+             * Set the image source ONLY when opening.
+             *
+             * While the lightbox is closed, its image has src=""
+             * and the entire modal is display:none.
              */
-            lightboxImage.src = bannerImage.currentSrc ||
-                                bannerImage.src;
+            lightboxImage.src =
+                bannerImage.currentSrc ||
+                bannerImage.src;
 
-            lightboxModal.classList.add("modal-visible");
+            lightboxModal.classList.add("open");
 
             lightboxModal.setAttribute(
                 "aria-hidden",
                 "false"
             );
 
-            lockBodyScroll();
+            lockScroll();
 
-            window.setTimeout(function () {
-                lightboxCloseButton.focus();
-            }, 50);
+            window.setTimeout(
+                function () {
+                    lightboxClose.focus();
+                },
+                50
+            );
         }
 
 
         function closeLightbox() {
 
-            lightboxModal.classList.remove(
-                "modal-visible"
-            );
+            lightboxModal.classList.remove("open");
 
             lightboxModal.setAttribute(
                 "aria-hidden",
                 "true"
             );
 
-            unlockBodyScroll();
+            /*
+             * Remove the image source after closing.
+             *
+             * This ensures there is no image element with an
+             * active source sitting around when the lightbox
+             * is closed.
+             */
+            lightboxImage.removeAttribute("src");
+
+            unlockScroll();
         }
 
 
         /* =====================================================
-           EVENT LISTENERS
+           EVENTS
         ====================================================== */
 
-        bannerButton.addEventListener(
+        bannerClick.addEventListener(
             "click",
-            openLightbox
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                openLightbox();
+            }
         );
 
 
         contactButton.addEventListener(
             "click",
-            openContactModal
+            function (event) {
+
+                event.preventDefault();
+
+                openContactModal();
+            }
         );
 
 
-        contactCloseButton.addEventListener(
+        contactClose.addEventListener(
             "click",
-            closeContactModal
+            function () {
+                closeContactModal();
+            }
         );
 
 
-        lightboxCloseButton.addEventListener(
+        lightboxClose.addEventListener(
             "click",
-            closeLightbox
+            function () {
+                closeLightbox();
+            }
         );
 
 
         /* =====================================================
-           CLICK OUTSIDE MODALS
+           CLICK OUTSIDE
         ====================================================== */
 
         contactModal.addEventListener(
             "click",
             function (event) {
 
-                /*
-                 * Only close when the actual backdrop is clicked.
-                 *
-                 * Clicking inside the form will NOT close it.
-                 */
-                if (event.target === contactModal) {
+                if (
+                    event.target === contactModal
+                ) {
                     closeContactModal();
                 }
             }
@@ -1531,25 +1504,9 @@
             "click",
             function (event) {
 
-                /*
-                 * Only close when the actual backdrop is clicked.
-                 */
-                if (event.target === lightboxModal) {
-                    closeLightbox();
-                }
-            }
-        );
-
-
-        /*
-         * Clicking the lightbox container outside the image
-         * also closes it.
-         */
-        lightboxContainer.addEventListener(
-            "click",
-            function (event) {
-
-                if (event.target === lightboxContainer) {
+                if (
+                    event.target === lightboxModal
+                ) {
                     closeLightbox();
                 }
             }
@@ -1557,7 +1514,7 @@
 
 
         /* =====================================================
-           ESCAPE KEY
+           ESCAPE
         ====================================================== */
 
         document.addEventListener(
@@ -1569,18 +1526,14 @@
                 }
 
                 if (
-                    contactModal.classList.contains(
-                        "modal-visible"
-                    )
+                    contactModal.classList.contains("open")
                 ) {
                     closeContactModal();
                     return;
                 }
 
                 if (
-                    lightboxModal.classList.contains(
-                        "modal-visible"
-                    )
+                    lightboxModal.classList.contains("open")
                 ) {
                     closeLightbox();
                 }
@@ -1589,86 +1542,23 @@
 
 
         /* =====================================================
-           DEBUGGING SAFETY CHECK
+           PREVENT IMAGE DRAGGING
         ====================================================== */
 
-        /*
-         * This is intentionally lightweight.
-         *
-         * If something ever accidentally causes a closed modal
-         * to become interactive, force it back into the safe
-         * state.
-         */
-
-        function enforceModalSafety() {
-
-            if (
-                !contactModal.classList.contains(
-                    "modal-visible"
-                )
-            ) {
-                contactModal.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
+        bannerImage.addEventListener(
+            "dragstart",
+            function (event) {
+                event.preventDefault();
             }
+        );
 
-            if (
-                !lightboxModal.classList.contains(
-                    "modal-visible"
-                )
-            ) {
-                lightboxModal.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
+
+        lightboxImage.addEventListener(
+            "dragstart",
+            function (event) {
+                event.preventDefault();
             }
-        }
-
-        enforceModalSafety();
-
-
-        /* =====================================================
-           OPTIONAL DEVELOPMENT DIAGNOSTIC
-        ====================================================== */
-
-        /*
-         * Uncomment this block if the site ever becomes
-         * unclickable again.
-         *
-         * It will tell you what element is physically sitting
-         * underneath the center of the screen.
-         */
-
-        /*
-        document.addEventListener("click", function () {
-
-            const element =
-                document.elementFromPoint(
-                    window.innerWidth / 2,
-                    window.innerHeight / 2
-                );
-
-            console.log(
-                "Center element:",
-                element
-            );
-
-            console.log(
-                "Contact modal pointer-events:",
-                getComputedStyle(
-                    contactModal
-                ).pointerEvents
-            );
-
-            console.log(
-                "Lightbox pointer-events:",
-                getComputedStyle(
-                    lightboxModal
-                ).pointerEvents
-            );
-        });
-        */
+        );
 
 
         /* =====================================================
@@ -1676,15 +1566,11 @@
         ====================================================== */
 
         /*
-         * Explicitly guarantee both modals start closed.
+         * Explicitly guarantee the lightbox starts closed.
          */
-        contactModal.classList.remove(
-            "modal-visible"
-        );
 
-        lightboxModal.classList.remove(
-            "modal-visible"
-        );
+        contactModal.classList.remove("open");
+        lightboxModal.classList.remove("open");
 
         contactModal.setAttribute(
             "aria-hidden",
@@ -1696,9 +1582,96 @@
             "true"
         );
 
-        document.body.classList.remove(
-            "modal-open"
-        );
+        lightboxImage.removeAttribute("src");
+
+        document.body.style.overflow = "";
+
+
+        /* =====================================================
+           DEBUGGING TOOL
+        ====================================================== */
+
+        /*
+         * This does NOT affect the website.
+         *
+         * If the problem somehow still occurs, open the browser
+         * console and run:
+         *
+         *     window.findBlockingElement()
+         *
+         * It will tell you exactly which element is underneath
+         * the center of the screen.
+         */
+
+        window.findBlockingElement = function () {
+
+            const x =
+                window.innerWidth / 2;
+
+            const y =
+                window.innerHeight / 2;
+
+            const element =
+                document.elementFromPoint(x, y);
+
+            console.log(
+                "Element at screen center:",
+                element
+            );
+
+            if (element) {
+
+                console.log(
+                    "TAG:",
+                    element.tagName
+                );
+
+                console.log(
+                    "ID:",
+                    element.id
+                );
+
+                console.log(
+                    "CLASS:",
+                    element.className
+                );
+
+                console.log(
+                    "RECT:",
+                    element.getBoundingClientRect()
+                );
+
+                console.log(
+                    "POINTER EVENTS:",
+                    getComputedStyle(
+                        element
+                    ).pointerEvents
+                );
+
+                console.log(
+                    "POSITION:",
+                    getComputedStyle(
+                        element
+                    ).position
+                );
+
+                console.log(
+                    "DISPLAY:",
+                    getComputedStyle(
+                        element
+                    ).display
+                );
+
+                console.log(
+                    "VISIBILITY:",
+                    getComputedStyle(
+                        element
+                    ).visibility
+                );
+            }
+
+            return element;
+        };
     </script>
 
 </body>
