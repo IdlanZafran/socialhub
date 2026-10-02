@@ -1,265 +1,1706 @@
+```html
 <!doctype html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Idlan Zafran | Connect</title>
-      <script src="https://cdn.tailwindcss.com"></script>
-      <style>
-         /* Custom scrollbar for webkit to keep things clean */
-         ::-webkit-scrollbar {
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="description"
+        content="Idlan Zafran - Student engineer, business, research and developer."
+    >
+
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Idlan Zafran | Connect</title>
+
+    <style>
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: #0f172a;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a 0%,
+                    #1e293b 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+        }
+
+
+        /* =========================================================
+           SCROLLBAR
+        ========================================================= */
+
+        ::-webkit-scrollbar {
             width: 8px;
-         }
-         ::-webkit-scrollbar-track {
+        }
+
+        ::-webkit-scrollbar-track {
             background: transparent;
-         }
-         ::-webkit-scrollbar-thumb {
+        }
+
+        ::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 4px;
-         }
-         ::-webkit-scrollbar-thumb:hover {
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.4);
-         }
-         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-         }
-      </style>
-   </head>
-   <body class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] min-h-screen flex items-center justify-center p-4 text-white relative">
-      
-      <div class="w-full max-w-[400px] bg-white/5 backdrop-blur-md border border-white/10 rounded-[24px] overflow-hidden shadow-2xl pb-8 mt-8 mb-8 relative z-10">
-         
-         <!-- Static Banner Image (Clickable) -->
-         <div 
-            class="relative w-full h-[250px] overflow-hidden bg-black/20 cursor-pointer group"
-            onclick="openLightbox()"
-            title="Click to view full image"
-         >
-            <img 
-               src="images/banner.png" 
-               alt="Profile Banner" 
-               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-               onerror="this.src='https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner'"
-            />
-            <!-- Overlay icon on hover for affordance -->
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-10 h-10 text-white drop-shadow-md">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
-               </svg>
+        }
+
+
+        /* =========================================================
+           PAGE
+        ========================================================= */
+
+        .page {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding:
+                max(16px, env(safe-area-inset-top))
+                max(16px, env(safe-area-inset-right))
+                max(16px, env(safe-area-inset-bottom))
+                max(16px, env(safe-area-inset-left));
+        }
+
+
+        /* =========================================================
+           MAIN CARD
+        ========================================================= */
+
+        .card {
+            position: relative;
+            z-index: 10;
+
+            width: 100%;
+            max-width: 400px;
+
+            margin-top: 32px;
+            margin-bottom: 32px;
+
+            padding-bottom: 32px;
+
+            overflow: hidden;
+
+            background: rgba(255, 255, 255, 0.05);
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 24px;
+
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.45);
+
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+
+        /* =========================================================
+           BANNER
+        ========================================================= */
+
+        .banner-button {
+            position: relative;
+
+            display: block;
+
+            width: 100%;
+            height: 250px;
+
+            padding: 0;
+            margin: 0;
+
+            overflow: hidden;
+
+            border: 0;
+            border-radius: 0;
+
+            background: rgba(0, 0, 0, 0.2);
+
+            cursor: pointer;
+
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .banner-button:focus-visible {
+            outline: 3px solid rgba(96, 165, 250, 0.9);
+            outline-offset: -3px;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transform: scale(1);
+
+            transition:
+                transform 500ms ease;
+        }
+
+        .banner-button:hover .banner-image {
+            transform: scale(1.05);
+        }
+
+        /*
+         * IMPORTANT:
+         *
+         * pointer-events: none prevents this visual overlay
+         * from ever blocking clicks/touches.
+         */
+        .banner-overlay {
+            position: absolute;
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(0, 0, 0, 0.40);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                opacity 300ms ease;
+        }
+
+        .banner-button:hover .banner-overlay,
+        .banner-button:focus-visible .banner-overlay {
+            opacity: 1;
+        }
+
+        .banner-icon {
+            width: 40px;
+            height: 40px;
+
+            color: #ffffff;
+
+            filter:
+                drop-shadow(
+                    0 2px 4px rgba(0, 0, 0, 0.5)
+                );
+        }
+
+
+        /* =========================================================
+           PROFILE CONTENT
+        ========================================================= */
+
+        .profile-content {
+            position: relative;
+            z-index: 20;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            padding: 0 24px;
+
+            margin-top: -48px;
+        }
+
+        .profile-photo {
+            width: 110px;
+            height: 110px;
+
+            margin-bottom: 12px;
+
+            object-fit: cover;
+
+            border: 4px solid #ffffff;
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .name {
+            margin: 0 0 4px;
+
+            font-size: 24px;
+            line-height: 1.2;
+            font-weight: 700;
+
+            text-align: center;
+        }
+
+        .description {
+            max-width: 340px;
+
+            margin: 0 0 24px;
+            padding: 0 8px;
+
+            color: rgba(255, 255, 255, 0.80);
+
+            font-size: 14px;
+            line-height: 1.6;
+
+            text-align: center;
+        }
+
+
+        /* =========================================================
+           LINKS
+        ========================================================= */
+
+        .links {
+            display: flex;
+            flex-direction: column;
+
+            width: 100%;
+
+            gap: 12px;
+        }
+
+        .link-button {
+            display: block;
+
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            color: #0f172a;
+            background: #ffffff;
+
+            font-size: 16px;
+            line-height: 1.25;
+            font-weight: 600;
+
+            text-align: center;
+            text-decoration: none;
+
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.18);
+
+            transition:
+                background-color 150ms ease,
+                transform 100ms ease;
+        }
+
+        .link-button:hover {
+            background: #f3f4f6;
+        }
+
+        .link-button:active {
+            transform: scale(0.97);
+        }
+
+        .link-button:focus-visible {
+            outline: 3px solid rgba(96, 165, 250, 0.9);
+            outline-offset: 3px;
+        }
+
+
+        /* =========================================================
+           CONTACT BUTTON
+        ========================================================= */
+
+        .contact-button {
+            display: block;
+
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            border-radius: 12px;
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    to right,
+                    #3b82f6,
+                    #4f46e5
+                );
+
+            font-size: 16px;
+            line-height: 1.25;
+            font-weight: 700;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 20px rgba(0, 0, 0, 0.20);
+
+            transition:
+                filter 150ms ease,
+                transform 100ms ease;
+        }
+
+        .contact-button:hover {
+            filter: brightness(1.10);
+        }
+
+        .contact-button:active {
+            transform: scale(0.97);
+        }
+
+        .contact-button:focus-visible {
+            outline: 3px solid rgba(147, 197, 253, 0.95);
+            outline-offset: 3px;
+        }
+
+        .separator {
+            height: 8px;
+        }
+
+
+        /* =========================================================
+           MODAL SYSTEM
+        ========================================================= */
+
+        /*
+         * IMPORTANT:
+         *
+         * A closed modal is:
+         *
+         * 1. opacity: 0
+         * 2. visibility: hidden
+         * 3. pointer-events: none
+         *
+         * Therefore it cannot accidentally sit over the page
+         * and block clicks.
+         */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 100%;
+
+            padding:
+                max(16px, env(safe-area-inset-top))
+                max(16px, env(safe-area-inset-right))
+                max(16px, env(safe-area-inset-bottom))
+                max(16px, env(safe-area-inset-left));
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 300ms ease,
+                visibility 300ms ease;
+        }
+
+        .modal-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+
+        /* =========================================================
+           CONTACT MODAL
+        ========================================================= */
+
+        #contact-modal {
+            z-index: 50;
+
+            background: rgba(0, 0, 0, 0.60);
+
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            position: relative;
+
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            max-height: 90dvh;
+
+            overflow-y: auto;
+
+            padding: 24px;
+
+            background: #1e293b;
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 24px;
+
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.60);
+
+            transform: scale(0.95);
+
+            transition:
+                transform 300ms ease;
+        }
+
+        .modal-visible .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 20px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        .close-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 40px;
+            height: 40px;
+
+            padding: 8px;
+
+            border: 0;
+            border-radius: 999px;
+
+            color: rgba(255, 255, 255, 0.70);
+            background: transparent;
+
+            cursor: pointer;
+
+            transition:
+                color 150ms ease,
+                background-color 150ms ease;
+        }
+
+        .close-button:hover {
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .close-button:focus-visible {
+            outline: 3px solid rgba(96, 165, 250, 0.9);
+            outline-offset: 2px;
+        }
+
+        .close-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+
+        /* =========================================================
+           FORM
+        ========================================================= */
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            margin-bottom: 4px;
+
+            color: rgba(255, 255, 255, 0.70);
+
+            font-size: 14px;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+
+            padding: 10px 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 8px;
+
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.20);
+
+            outline: none;
+
+            transition:
+                border-color 150ms ease,
+                box-shadow 150ms ease;
+        }
+
+        .form-input {
+            min-height: 44px;
+        }
+
+        .form-textarea {
+            min-height: 90px;
+
+            resize: vertical;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.30);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: #3b82f6;
+
+            box-shadow:
+                0 0 0 1px #3b82f6;
+        }
+
+        .submit-button {
+            width: 100%;
+
+            margin-top: 4px;
+
+            padding: 12px 16px;
+
+            border: 0;
+            border-radius: 12px;
+
+            color: #0f172a;
+            background: #ffffff;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.18);
+
+            transition:
+                background-color 150ms ease,
+                transform 100ms ease;
+        }
+
+        .submit-button:hover {
+            background: #e5e7eb;
+        }
+
+        .submit-button:active {
+            transform: scale(0.97);
+        }
+
+        .submit-button:focus-visible {
+            outline: 3px solid rgba(96, 165, 250, 0.9);
+            outline-offset: 3px;
+        }
+
+
+        /* =========================================================
+           LIGHTBOX
+        ========================================================= */
+
+        #lightbox-modal {
+            z-index: 60;
+
+            background: rgba(0, 0, 0, 0.90);
+
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            padding: 16px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+
+            top: max(16px, env(safe-area-inset-top));
+            right: max(16px, env(safe-area-inset-right));
+
+            z-index: 70;
+        }
+
+        .lightbox-container {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 100%;
+
+            pointer-events: none;
+        }
+
+        /*
+         * The container itself doesn't catch pointer events.
+         * The image does.
+         */
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 85vh;
+            max-height: 85dvh;
+
+            width: auto;
+            height: auto;
+
+            object-fit: contain;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.60);
+
+            transform: scale(0.95);
+
+            pointer-events: auto;
+
+            transition:
+                transform 300ms ease;
+        }
+
+        #lightbox-modal.modal-visible .lightbox-image {
+            transform: scale(1);
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 480px) {
+
+            .page {
+                align-items: flex-start;
+
+                padding-top:
+                    max(16px, env(safe-area-inset-top));
+            }
+
+            .card {
+                margin-top: 16px;
+                margin-bottom: 16px;
+
+                border-radius: 20px;
+            }
+
+            .banner-button {
+                height: 220px;
+            }
+
+            .profile-content {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .name {
+                font-size: 22px;
+            }
+
+            .modal-content {
+                max-height: 88vh;
+                max-height: 88dvh;
+
+                padding: 20px;
+
+                border-radius: 20px;
+            }
+
+            .lightbox-image {
+                max-height: 80vh;
+                max-height: 80dvh;
+            }
+        }
+
+
+        /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .banner-button:hover .banner-image {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <main class="page">
+
+        <!-- =====================================================
+             MAIN CARD
+        ====================================================== -->
+
+        <section class="card">
+
+            <!-- =================================================
+                 BANNER
+            ================================================== -->
+
+            <button
+                type="button"
+                class="banner-button"
+                id="banner-button"
+                aria-label="View full banner image"
+                title="Click to view full image"
+            >
+
+                <img
+                    id="banner-image"
+                    class="banner-image"
+                    src="images/banner.png"
+                    alt="Profile Banner"
+                    width="800"
+                    height="500"
+                    fetchpriority="high"
+                    decoding="async"
+                >
+
+                <!--
+                    IMPORTANT:
+                    pointer-events: none in CSS means this
+                    overlay can NEVER block the button.
+                -->
+                <span
+                    class="banner-overlay"
+                    aria-hidden="true"
+                >
+                    <svg
+                        class="banner-icon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"
+                        />
+                    </svg>
+                </span>
+
+            </button>
+
+
+            <!-- =================================================
+                 PROFILE
+            ================================================== -->
+
+            <div class="profile-content">
+
+                <img
+                    id="profile-photo"
+                    class="profile-photo"
+                    src="profilephoto.jpg"
+                    alt="Idlan Zafran"
+                    width="110"
+                    height="110"
+                    decoding="async"
+                >
+
+                <h1 class="name">
+                    Idlan Zafran
+                </h1>
+
+                <p class="description">
+                    Student engineer by day, business at night,
+                    research on weekends and developer on occasion.
+                </p>
+
+
+                <!-- =============================================
+                     LINKS
+                ============================================== -->
+
+                <div class="links">
+
+                    <a
+                        href="https://just-capri-e34.notion.site/idlanzafran"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-button"
+                    >
+                        Web Portfolio
+                    </a>
+
+
+                    <a
+                        href="https://github.com/IdlanZafran"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-button"
+                    >
+                        GitHub
+                    </a>
+
+
+                    <a
+                        href="https://idlanzafran.github.io/IdlanZafran-resume/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-button"
+                    >
+                        Resume 1
+                    </a>
+
+
+                    <a
+                        href="https://idlanzafran.github.io/IdlanZafran-resume/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-button"
+                    >
+                        Resume 2
+                    </a>
+
+
+                    <a
+                        href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-button"
+                    >
+                        ResearchGate
+                    </a>
+
+
+                    <a
+                        href="https://www.linkedin.com/in/idlanzafran/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-button"
+                    >
+                        LinkedIn
+                    </a>
+
+
+                    <a
+                        href="https://www.arduinolibraries.info/authors/idlanzafran"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-button"
+                    >
+                        Arduino
+                    </a>
+
+
+                    <div class="separator" aria-hidden="true"></div>
+
+
+                    <!-- =========================================
+                         CONTACT
+                    ========================================== -->
+
+                    <button
+                        type="button"
+                        id="contact-button"
+                        class="contact-button"
+                    >
+                        Contact Me
+                    </button>
+
+                </div>
+
             </div>
-         </div>
 
-         <div class="px-6 flex flex-col items-center -mt-12 relative z-20">
-            <img
-               src="profilephoto.jpg"
-               onerror="this.src='https://placehold.co/110x110/ffffff/0f172a?text=IZ'"
-               alt="Idlan Zafran"
-               class="w-[110px] h-[110px] rounded-full object-cover border-4 border-white shadow-lg mb-3 bg-white"
-            />
+        </section>
 
-            <h1 class="text-2xl font-bold mb-1">Idlan Zafran</h1>
+    </main>
 
-            <p class="text-center text-sm text-white/80 leading-relaxed mb-6 px-2">
-               Student engineer by day, business at night, research on weekends and developer on occasion.
-            </p>
 
-            <div class="w-full flex flex-col space-y-3">
-               <a
-                  href="https://just-capri-e34.notion.site/idlanzafran"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  Web Portfolio
-               </a>
-               
-               <a
-                  href="https://github.com/IdlanZafran"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  GitHub
-               </a>
-               
-               <a
-                  href="https://idlanzafran.github.io/IdlanZafran-resume/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  Resume 1
-               </a>
+    <!-- =========================================================
+         CONTACT MODAL
 
-               <a
-                  href="https://idlanzafran.github.io/IdlanZafran-resume/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  Resume 2
-               </a>
-               
-               <a
-                  href="https://www.researchgate.net/profile/Idlan-Zafran-Mohd-Zaidie"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  ResearchGate
-               </a>
-               
-               <a
-                  href="https://www.linkedin.com/in/idlanzafran/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  LinkedIn
-               </a>
+         IMPORTANT:
+         Starts with:
+         opacity: 0
+         visibility: hidden
+         pointer-events: none
 
-               <a
-                  href="https://www.arduinolibraries.info/authors/idlanzafran"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block w-full bg-white text-[#0f172a] text-center py-3.5 rounded-xl font-semibold transition-transform active:scale-95 hover:bg-gray-100 shadow-md"
-               >
-                  Arduino
-               </a>
+         Therefore it cannot block the page while closed.
+    ========================================================== -->
 
-               <div class="h-2"></div> <!-- Small visual separator -->
+    <div
+        id="contact-modal"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-modal-title"
+        aria-hidden="true"
+    >
 
-               <button
-                  onclick="openContactModal()"
-                  class="block w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-center py-3.5 rounded-xl font-bold transition-transform active:scale-95 hover:brightness-110 shadow-lg border border-white/20"
-               >
-                  Contact Me
-               </button>
-            </div>
-         </div>
-      </div>
-
-      <!-- CRITICAL FIX: The default classes include pointer-events-none to prevent blocking clicks -->
-      <div
-         id="contact-modal"
-         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
-      >
-         <div
-            class="bg-[#1e293b] w-full max-w-[400px] rounded-[24px] border border-white/10 p-6 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto"
+        <div
+            class="modal-content"
             id="contact-modal-content"
-         >
-            <div class="flex justify-between items-center mb-6">
-               <h2 class="text-xl font-bold text-white">Get in Touch</h2>
-               <button
-                  onclick="closeContactModal()"
-                  class="text-white/50 hover:text-white transition-colors"
-               >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-               </button>
+        >
+
+            <div class="modal-header">
+
+                <h2
+                    class="modal-title"
+                    id="contact-modal-title"
+                >
+                    Get in Touch
+                </h2>
+
+                <button
+                    type="button"
+                    class="close-button"
+                    id="contact-close-button"
+                    aria-label="Close contact form"
+                >
+
+                    <svg
+                        class="close-icon"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+
+                </button>
+
             </div>
+
 
             <form
-               id="contact-form"
-               action="https://formspree.io/f/mzezqqjy"
-               method="POST"
-               class="space-y-4"
+                id="contact-form"
+                class="contact-form"
+                action="https://formspree.io/f/mzezqqjy"
+                method="POST"
             >
-               <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1">Name</label>
-                  <input type="text" name="name" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="John Doe" />
-               </div>
-               <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1">Association / Company</label>
-                  <input type="text" name="association" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="University / Startup Inc." />
-               </div>
-               <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1">Phone Number</label>
-                  <input type="tel" name="phone" required class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all" placeholder="+60 12 345 6789" />
-               </div>
-               <div>
-                  <label class="block text-sm font-medium text-white/70 mb-1">Details</label>
-                  <textarea name="message" required rows="3" class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none" placeholder="Reason for reaching out..."></textarea>
-               </div>
 
-               <button type="submit" class="w-full mt-2 bg-white text-[#0f172a] font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors active:scale-95 shadow-md">
-                  Send Message
-               </button>
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="name"
+                    >
+                        Name
+                    </label>
+
+                    <input
+                        id="name"
+                        class="form-input"
+                        type="text"
+                        name="name"
+                        autocomplete="name"
+                        required
+                        placeholder="John Doe"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="association"
+                    >
+                        Association / Company
+                    </label>
+
+                    <input
+                        id="association"
+                        class="form-input"
+                        type="text"
+                        name="association"
+                        autocomplete="organization"
+                        required
+                        placeholder="University / Startup Inc."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="phone"
+                    >
+                        Phone Number
+                    </label>
+
+                    <input
+                        id="phone"
+                        class="form-input"
+                        type="tel"
+                        name="phone"
+                        autocomplete="tel"
+                        required
+                        placeholder="+60 12 345 6789"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="message"
+                    >
+                        Details
+                    </label>
+
+                    <textarea
+                        id="message"
+                        class="form-textarea"
+                        name="message"
+                        rows="3"
+                        required
+                        placeholder="Reason for reaching out..."
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    Send Message
+                </button>
+
             </form>
-         </div>
-      </div>
 
-      <div
-         id="lightbox-modal"
-         class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300"
-      >
-         <button
-            onclick="closeLightbox()"
-            class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors p-2 bg-black/50 rounded-full hover:bg-black/80 z-50"
-         >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
-               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         IMAGE LIGHTBOX
+    ========================================================== -->
+
+    <div
+        id="lightbox-modal"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lightbox-title"
+        aria-hidden="true"
+    >
+
+        <h2
+            id="lightbox-title"
+            style="
+                position:absolute;
+                width:1px;
+                height:1px;
+                padding:0;
+                margin:-1px;
+                overflow:hidden;
+                clip:rect(0,0,0,0);
+                white-space:nowrap;
+                border:0;
+            "
+        >
+            Full Banner Image
+        </h2>
+
+
+        <button
+            type="button"
+            class="close-button lightbox-close"
+            id="lightbox-close-button"
+            aria-label="Close full banner image"
+        >
+
+            <svg
+                class="close-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                />
             </svg>
-         </button>
-         
-         <div class="relative w-full h-full flex justify-center items-center pointer-events-none">
-            <!-- Ensure the image itself captures pointer events when open so you can interact with it if needed -->
-            <img 
-               id="lightbox-img"
-               src="images/banner.png" 
-               alt="Full Banner" 
-               class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl transform scale-95 transition-transform duration-300 pointer-events-auto"
-               onerror="this.src='https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner'"
-            />
-         </div>
-      </div>
 
-      <script>
-         const contactModal = document.getElementById("contact-modal");
-         const contactModalContent = document.getElementById("contact-modal-content");
-         
-         const lightboxModal = document.getElementById("lightbox-modal");
-         const lightboxImg = document.getElementById("lightbox-img");
+        </button>
 
-         // Remove pointer-events-none when opening, add back when closing
-         function openContactModal() {
-            contactModal.classList.remove("opacity-0", "pointer-events-none");
-            contactModalContent.classList.remove("scale-95");
-            contactModalContent.classList.add("scale-100");
-         }
 
-         function closeContactModal() {
-            contactModal.classList.add("opacity-0", "pointer-events-none");
-            contactModalContent.classList.remove("scale-100");
-            contactModalContent.classList.add("scale-95");
-         }
+        <div
+            class="lightbox-container"
+            id="lightbox-container"
+        >
 
-         function openLightbox() {
-            lightboxModal.classList.remove("opacity-0", "pointer-events-none");
-            lightboxImg.classList.remove("scale-95");
-            lightboxImg.classList.add("scale-100");
-         }
+            <img
+                id="lightbox-image"
+                class="lightbox-image"
+                src="images/banner.png"
+                alt="Full Banner"
+                width="800"
+                height="500"
+                decoding="async"
+            >
 
-         function closeLightbox() {
-            lightboxModal.classList.add("opacity-0", "pointer-events-none");
-            lightboxImg.classList.remove("scale-100");
-            lightboxImg.classList.add("scale-95");
-         }
+        </div>
 
-         // Close modals when clicking the dark backdrop
-         contactModal.addEventListener("click", (e) => {
-            if (e.target === contactModal) {
-               closeContactModal();
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+        "use strict";
+
+        /* =====================================================
+           ELEMENTS
+        ====================================================== */
+
+        const bannerButton =
+            document.getElementById("banner-button");
+
+        const bannerImage =
+            document.getElementById("banner-image");
+
+        const profilePhoto =
+            document.getElementById("profile-photo");
+
+        const contactButton =
+            document.getElementById("contact-button");
+
+        const contactModal =
+            document.getElementById("contact-modal");
+
+        const contactModalContent =
+            document.getElementById("contact-modal-content");
+
+        const contactCloseButton =
+            document.getElementById("contact-close-button");
+
+        const lightboxModal =
+            document.getElementById("lightbox-modal");
+
+        const lightboxContainer =
+            document.getElementById("lightbox-container");
+
+        const lightboxImage =
+            document.getElementById("lightbox-image");
+
+        const lightboxCloseButton =
+            document.getElementById("lightbox-close-button");
+
+
+        /* =====================================================
+           IMAGE FALLBACKS
+        ====================================================== */
+
+        /*
+         * Prevent an image error from repeatedly triggering.
+         *
+         * If you have local fallback images, you can replace
+         * these URLs with:
+         *
+         * images/banner-fallback.jpg
+         * images/profile-fallback.jpg
+         */
+
+        bannerImage.addEventListener("error", function () {
+
+            if (this.dataset.fallbackApplied === "true") {
+                return;
             }
-         });
 
-         lightboxModal.addEventListener("click", (e) => {
-            if (e.target === lightboxModal) {
-               closeLightbox();
+            this.dataset.fallbackApplied = "true";
+
+            this.src =
+                "https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner";
+        });
+
+
+        profilePhoto.addEventListener("error", function () {
+
+            if (this.dataset.fallbackApplied === "true") {
+                return;
             }
-         });
-      </script>
-   </body>
+
+            this.dataset.fallbackApplied = "true";
+
+            this.src =
+                "https://placehold.co/110x110/ffffff/0f172a?text=IZ";
+        });
+
+
+        lightboxImage.addEventListener("error", function () {
+
+            if (this.dataset.fallbackApplied === "true") {
+                return;
+            }
+
+            this.dataset.fallbackApplied = "true";
+
+            this.src =
+                "https://placehold.co/800x500/1e293b/ffffff?text=Main+Banner";
+        });
+
+
+        /* =====================================================
+           BODY SCROLL LOCK
+        ====================================================== */
+
+        function lockBodyScroll() {
+            document.body.classList.add("modal-open");
+        }
+
+        function unlockBodyScroll() {
+
+            /*
+             * Only unlock scrolling if neither modal is visible.
+             */
+            const contactOpen =
+                contactModal.classList.contains("modal-visible");
+
+            const lightboxOpen =
+                lightboxModal.classList.contains("modal-visible");
+
+            if (!contactOpen && !lightboxOpen) {
+                document.body.classList.remove("modal-open");
+            }
+        }
+
+
+        /* =====================================================
+           CONTACT MODAL
+        ====================================================== */
+
+        function openContactModal() {
+
+            /*
+             * Close the other modal first.
+             */
+            closeLightbox();
+
+            contactModal.classList.add("modal-visible");
+
+            contactModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            lockBodyScroll();
+
+            /*
+             * Focus the first input after the animation starts.
+             */
+            window.setTimeout(function () {
+
+                const firstInput =
+                    contactModal.querySelector("input");
+
+                if (firstInput) {
+                    firstInput.focus();
+                }
+
+            }, 50);
+        }
+
+
+        function closeContactModal() {
+
+            contactModal.classList.remove("modal-visible");
+
+            contactModal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            unlockBodyScroll();
+        }
+
+
+        /* =====================================================
+           LIGHTBOX
+        ====================================================== */
+
+        function openLightbox() {
+
+            /*
+             * Close contact modal first.
+             */
+            closeContactModal();
+
+            /*
+             * Make sure the lightbox image uses the same
+             * source as the main banner.
+             */
+            lightboxImage.src = bannerImage.currentSrc ||
+                                bannerImage.src;
+
+            lightboxModal.classList.add("modal-visible");
+
+            lightboxModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+            lockBodyScroll();
+
+            window.setTimeout(function () {
+                lightboxCloseButton.focus();
+            }, 50);
+        }
+
+
+        function closeLightbox() {
+
+            lightboxModal.classList.remove(
+                "modal-visible"
+            );
+
+            lightboxModal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            unlockBodyScroll();
+        }
+
+
+        /* =====================================================
+           EVENT LISTENERS
+        ====================================================== */
+
+        bannerButton.addEventListener(
+            "click",
+            openLightbox
+        );
+
+
+        contactButton.addEventListener(
+            "click",
+            openContactModal
+        );
+
+
+        contactCloseButton.addEventListener(
+            "click",
+            closeContactModal
+        );
+
+
+        lightboxCloseButton.addEventListener(
+            "click",
+            closeLightbox
+        );
+
+
+        /* =====================================================
+           CLICK OUTSIDE MODALS
+        ====================================================== */
+
+        contactModal.addEventListener(
+            "click",
+            function (event) {
+
+                /*
+                 * Only close when the actual backdrop is clicked.
+                 *
+                 * Clicking inside the form will NOT close it.
+                 */
+                if (event.target === contactModal) {
+                    closeContactModal();
+                }
+            }
+        );
+
+
+        lightboxModal.addEventListener(
+            "click",
+            function (event) {
+
+                /*
+                 * Only close when the actual backdrop is clicked.
+                 */
+                if (event.target === lightboxModal) {
+                    closeLightbox();
+                }
+            }
+        );
+
+
+        /*
+         * Clicking the lightbox container outside the image
+         * also closes it.
+         */
+        lightboxContainer.addEventListener(
+            "click",
+            function (event) {
+
+                if (event.target === lightboxContainer) {
+                    closeLightbox();
+                }
+            }
+        );
+
+
+        /* =====================================================
+           ESCAPE KEY
+        ====================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key !== "Escape") {
+                    return;
+                }
+
+                if (
+                    contactModal.classList.contains(
+                        "modal-visible"
+                    )
+                ) {
+                    closeContactModal();
+                    return;
+                }
+
+                if (
+                    lightboxModal.classList.contains(
+                        "modal-visible"
+                    )
+                ) {
+                    closeLightbox();
+                }
+            }
+        );
+
+
+        /* =====================================================
+           DEBUGGING SAFETY CHECK
+        ====================================================== */
+
+        /*
+         * This is intentionally lightweight.
+         *
+         * If something ever accidentally causes a closed modal
+         * to become interactive, force it back into the safe
+         * state.
+         */
+
+        function enforceModalSafety() {
+
+            if (
+                !contactModal.classList.contains(
+                    "modal-visible"
+                )
+            ) {
+                contactModal.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+            }
+
+            if (
+                !lightboxModal.classList.contains(
+                    "modal-visible"
+                )
+            ) {
+                lightboxModal.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+            }
+        }
+
+        enforceModalSafety();
+
+
+        /* =====================================================
+           OPTIONAL DEVELOPMENT DIAGNOSTIC
+        ====================================================== */
+
+        /*
+         * Uncomment this block if the site ever becomes
+         * unclickable again.
+         *
+         * It will tell you what element is physically sitting
+         * underneath the center of the screen.
+         */
+
+        /*
+        document.addEventListener("click", function () {
+
+            const element =
+                document.elementFromPoint(
+                    window.innerWidth / 2,
+                    window.innerHeight / 2
+                );
+
+            console.log(
+                "Center element:",
+                element
+            );
+
+            console.log(
+                "Contact modal pointer-events:",
+                getComputedStyle(
+                    contactModal
+                ).pointerEvents
+            );
+
+            console.log(
+                "Lightbox pointer-events:",
+                getComputedStyle(
+                    lightboxModal
+                ).pointerEvents
+            );
+        });
+        */
+
+
+        /* =====================================================
+           INITIAL STATE
+        ====================================================== */
+
+        /*
+         * Explicitly guarantee both modals start closed.
+         */
+        contactModal.classList.remove(
+            "modal-visible"
+        );
+
+        lightboxModal.classList.remove(
+            "modal-visible"
+        );
+
+        contactModal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        lightboxModal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+    </script>
+
+</body>
 </html>
+```
